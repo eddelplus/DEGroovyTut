@@ -96,7 +96,7 @@ def x = 43
 println "Der Rest von $x durch 5 ist ${ x % 5 }"
 
 // Bei Division kommt auch mal etwas Krummes heraus
-def y = x/5  // /
+def y = x / 5  // /
 println y
 println "Ganzzahlig: ${y as Integer}"
 
@@ -107,7 +107,7 @@ x *= 2; x -= 6;
 // Erhöhen und Verringern (x-- bzw. --x) mit altem bzw. neuem Wert
 println "43 * 2 - 6 = ${x++}, doppelt erhöht sind es ${++x}"
 
-// Dezimal-Arithmetik intern java.math.BigDecimal mit festem Komma
+// Dezimal-Arithmetik ist intern java.math.BigDecimal mit festem Komma
 x = 1.40
 println "$x + $y = ${x + y}"
 
@@ -127,7 +127,7 @@ if (x > 80)
 if (x >= 100) {
     println "Dreistellig (oder mehr)"
 }
-else if (x >= 10) // Einzelner Befehle geht auch ohne { } - nicht empfohlen
+else if (x >= 10) // Einzelner Befehl geht auch ohne { } - nicht empfohlen
     println "Zweistellig"
 else { // Mehrere Befehle müssen in einen { } Block
     println "Doch zu klein"
@@ -562,8 +562,8 @@ println datei.readLines().grep(~/.+o.+o.+/)
 // Backslash \ kein Escape-Zeichen. Elementare Platzhalter wie \d oder \w
 // müssen deshalb nicht als \\d oder \\w geschrieben werden.
 
-// Mit dem Präfix ~ wird entsteht dann ein java.util.regex.Pattern
-// Die .grep() Methode filtert auch einer Collection die Einträge heraus,
+// Mit dem Präfix ~ entsteht dann ein java.util.regex.Pattern
+// Die .grep() Methode filtert aus einer Collection die Einträge heraus,
 // die dem Pattern entsprechen, hier also zwei mal 'o' enthalten.
 
 // Für CSV Dateien und ähnliche Falle kann jede Zeile nach dem Einlesen auch
@@ -644,7 +644,7 @@ def einzelwert = 'C++'
 
 }
 
-// Die Ergebnisse bezüglich der Range zeigen, dass aber nicht jeder mögliche
-// Umwandlung vorher berücksichtigt werden. Weder "91" noch 7.7 fallen unter
-// die Werte 0..99. Die Fallunterscheidung anhang von Klassen ist besonders
+// Die Ergebnisse bezüglich der Range zeigen, dass aber nicht jede mögliche
+// Umwandlung vorher berücksichtigt wird. Weder "91" noch 7.7 fallen unter
+// die Werte 0..99. Die Fallunterscheidung anhand von Klassen ist besonders
 // hilfreich, um if/else/instanceof zu vermeiden.
