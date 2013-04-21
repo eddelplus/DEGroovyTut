@@ -96,7 +96,7 @@ def x = 43
 println "Der Rest von $x durch 5 ist ${ x % 5 }"
 
 // Bei Division kommt auch mal etwas Krummes heraus
-def y = x/5
+def y = x/5  // /
 println y
 println "Ganzzahlig: ${y as Integer}"
 
