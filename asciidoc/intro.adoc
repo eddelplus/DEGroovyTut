@@ -1,4 +1,6 @@
-== Groovy Basics
+== Groovy Tutorial Outline
+
+=== Part 1 - Basics
 
 .Standard output
 * *print* and *println*
@@ -16,6 +18,7 @@
 * Addition, Subtraction, Multiplication, Division, Modulo, Power
 * Combined assignment/operation
 * Incrementing/Decrementing
+* Precedence and parentheses
 
 .GStrings
 * Double quotes
@@ -23,3 +26,110 @@
 * Embedding the result of an expression
 * Forward link to more advanced treatment of GStrings
 
+.Booleans
+* Equality
+* Comparison
+* Boolean constants
+* Boolean operations (not, and, or, xor)
+
+.Control Structures
+* if
+* if ... else if ... else
+* while
+* for
+* continue / break
+
+.Functions
+* Formal parameters
+* Returning last expression result
+* Explicit *return*
+
+.Class Basics
+* Properties only
+* Declaration and initialisation
+* Instantiation with *new()*
+* Member access
+* Class instance as property
+* Method basics
+* null
+
+.Groovy Lists
+* List literal notation
+* Subscripted access and assignment
+* Left shift operation
+* size(), remove(), contains()
+
+.Objects
+* Everything is an object
+* Assignment of references
+* Identity vs. equality
+* toString() and getClass() methods
+* *instanceof* operator
+* Immutable Strings and Numbers
+* Cloning: Shallow vs. deep
+
+.JDK and Groovy JDK
+* Java class library with Groovy extensions
+* java.util.Date
+* Date formatting: Groovier than Java
+* Date operations: Example of Groovy operator overloading
+* Groovy lists implemented as ArrayList objects
+* StringBuilder
+
+.Ranges
+* Range literals
+* Groovy specific data types
+* Range subscript operations on Strings
+* Range subscript operations on Lists
+
+.Loops with closures
+* each() for lists and ranges
+* times()
+* Anonymous function in a code block
+* Default closure parameter *it* or custom parameter
+* eachWithIndex() with two parameters
+* return (not continue/break) in closures
+
+.Maps
+* Map literals
+* Duality of property and subscript
+* Initializing objects from maps
+* each() with key/value closure
+
+.Set, Collection, Iterator (java.util)
+* Background: Interfaces
+* for ( .. in .. )
+* for and while with Iterator
+* More methods with closures
+** collect
+** collect operator and property access
+** find, findAll
+** any, every
+** inject
+
+.Groovy Truth
+* Definition
+* Safe dereferencing
+* Conditional operator
+* Default (_Elvis_) operator
+
+.Regular Expressions
+* Special string delimiters (slashes)
+* Matching operators
+* Patterns
+* Link to generic regular expression tutorial
+
+.Switch
+* Importance of break
+* isCase() behavior for various classes
+* grep()
+
+.Exceptions
+* try ... catch ... finally
+* throw
+* finally and return
+
+.Conversion
+* Primitives
+* Character
+* Arrays
