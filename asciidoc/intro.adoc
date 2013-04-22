@@ -1,0 +1,25 @@
+== Groovy Basics
+
+.Standard output
+* *print* and *println*
+
+.Assignment
+* *def* and valid identifiers
+* Integral and decimal constants
+
+.String constants
+* Alternative use of single or double quotes
+* Escaping with backslash
+* Multiline string constants
+
+.Arithmetic operations
+* Addition, Subtraction, Multiplication, Division, Modulo, Power
+* Combined assignment/operation
+* Incrementing/Decrementing
+
+.GStrings
+* Double quotes
+* Embedding a single variable
+* Embedding the result of an expression
+* Forward link to more advanced treatment of GStrings
+
