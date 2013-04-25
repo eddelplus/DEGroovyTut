@@ -1,0 +1,100 @@
+== Groovy Tutorial Outline
+
+=== Part 2 - Applied Grooviness
+
+.Classes
+* Static members
+* Constructors
+* Inheritance
+* Interfaces
+
+.Closures
+* Assigning closures to variables
+* Variables from the surrounding scope
+* Map parameter
+* Delegates
+* Methods as Closures
+* Implementing Interfaces with Closures
+
+.Operator Overloading
+* Matching method names to operators
+* Caution when combined with assignment
+* Overloading dereferencing (get / set)
+* Overloading subscripting (getAt / setAt)
+
+.propertyMissing and methodMissing
+
+.Categories and Extensions
+
+.Expando MetaClass
+
+.Advanced Arithmetic
+* Hexadecimal, octal, etc.
+* Bitwise operations
+* Float and Double
+* Numeric literals
+* Calendar
+
+.Regular Expressions
+* Pattern syntax
+* Reluctant vs. Greedy
+* Groups
+* Replacement
+
+.Groovy I/O - Streams, Readers and Writers
+* Streams of Bytes
+* Character based I/O with Readers and Writers
+* Files, Pipes, Arrays and Strings as Source or Destination
+* Buffering and Formatting
+
+.Groovy I/O - Files and Directories
+* Reference to file system locations
+* Groovy extensions for File I/O
+* Directory tree access
+
+.Java Mail API
+
+.Process Managment
+
+.MarkupBuilder
+
+.XMLSlurper and XPath
+
+.JSON
+
+.Groovy Servlet
+
+.Groovy Templates
+
+.Groovy SQL
+* DataSource, Connection, Statement, Resultset
+* Connection Pooling
+* Cursors
+* Transactions
+* DataSet
+* Stored Procedures
+
+.Java Interop
+* Java primitives
+* Groovy beans, getters and setters
+* Public properties
+* Formal parameters
+* Java arrays vs. Groovy lists
+* Casting vs. Conversion
+
+.Embedding Groovy
+* GroovyShell
+* GroovyClassLoader
+* GroovyScriptEngine
+
+.Type checking and static compilation
+* Type inference
+
+.Testing
+
+.Swing
+
+.COM Interop
+* Scriptom and Jacob
+
+
