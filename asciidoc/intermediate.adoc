@@ -22,11 +22,10 @@
 * Overloading dereferencing (get / set)
 * Overloading subscripting (getAt / setAt)
 
-.propertyMissing and methodMissing
-
-.Categories and Extensions
-
-.Expando MetaClass
+.Meta-Programming
+* propertyMissing and methodMissing
+* Categories and Extensions
+ * Expando MetaClass
 
 .Advanced Arithmetic
 * Hexadecimal, octal, etc.
@@ -52,19 +51,14 @@
 * Groovy extensions for File I/O
 * Directory tree access
 
-.Java Mail API
-
-.Process Managment
-
-.MarkupBuilder
-
-.XMLSlurper and XPath
-
-.JSON
-
-.Groovy Servlet
-
-.Groovy Templates
+.Applied Groovy (in separate Chapters)
+* Java Mail API
+* Process Managment
+* MarkupBuilder
+* XMLSlurper and XPath
+* JSON
+* Groovy Servlet
+* Groovy Templates
 
 .Groovy SQL
 * DataSource, Connection, Statement, Resultset
@@ -91,8 +85,12 @@
 * Type inference
 
 .Testing
+* assert
+* Debugging
+* JUnit integration
 
 .Swing
+* SwingBuilder
 
 .COM Interop
 * Scriptom and Jacob
