@@ -58,6 +58,7 @@
 * Subscripted access and assignment
 * Left shift operation
 * size(), remove(), contains()
+* Sorting
 
 .Objects
 * Everything is an object
@@ -130,6 +131,8 @@
 * finally and return
 
 .Conversion
-* Primitives
+* The **as** keyword
+* Formatting Numbers and Dates
+* Parsing Numbers and Dates
 * Character
-* Arrays
+* printf
