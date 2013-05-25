@@ -1,0 +1,193 @@
+= Streams, Readers and Writers
+Jochen Eddelbüttel <jochen@eddelbuettel.net>
+:icons:
+:stylesdir: ./styles
+:source-highlighter: coderay
+:toc:
+
+== Grooviness Explained
+
+.A (planned) series of tutorials
+[NOTE]
+====
+This is the first volume of what may over time turn into a longer series of Groovy tutorials.
+In the series, this would not be the first part. It assumes that the previous parts have presented
+most of the core features of Groovy. Chapters detailing some of the more advanced features of
+Groovy would also come before this one: Closures, operator overloading, meta programming.
+
+This allows to reflect on how those Groovy features have been utilized in the creation of the
+Groovy JDK for I/O.
+====
+
+== Introduction
+
+Using input and ouput is likely one of the most frequent applications of a programming language.
+While going through the basic features of Groovy and the additional icing on the cake, like meta
+programing, we've been isolated in a lab environment. The console output from _print_ and _println_
+was the only visible connection to the outside world.
+
+Encapsulating functionality into classes is the key to creating libraries of reusable code. The
+wealth of classes included in the standard Java class library was crucial to Java's rapid
+acceptance in the early days.
+
+A key decision in the design of Groovy was not to reinvent classes that are provided by the
+JDK (Java Delvelopement Kit) and are fit for purpose already. Rather meta programming was
+utilized to make the existing classes a lot _groovier_, turning the plain JDK in to a truly
+Groovy JDK. This approach is particularly apparent for I/O (input/output). The JDK provideds
+a number of packages, each encompassing a set of classes within a common namespace. All
+class definitions in the *java.io* package are automatically imported into any piece of
+Groovy code.
+
+.Groovy default package imports
+[TIP]
+====
+* java.lang
+* java.util
+* java.io
+* java.math
+* java.net
+* groovy.lang
+* groovy.util
+====
+
+Closures, operator overloading and meta programming are the key tools to adding Grooviness
+to existing libraries. Even many features that may look like being built into the core syntax
+are just clever library design. Appending to a list with << is an overloaded operator while
+looping over its entries with .each is an added method that takes a closure as its parameter.
+
+Java I/O was a bit complex right from the start. The virtual machine had to abstract from the
+underlying operating system and Unicode support was included from the get go. Before delving
+into the details some of these design concepts need to be explained.
+
+== Streams
+
+For ages the smallest unit of information that is transferred in I/O operations is the
+byte. File sizes are counted in bytes, TCP/IP sockets and web protocols count in bytes and
+so do pipes for inter-process communication. A *stream* is a source or destination for a
+sequence of bytes. The JDK provides two basic classes for streams, the *OutputStream* and
+the *InputStream*. An OutputStream receives bytes from the Groovy program while an InputStream
+delivers them.
+
+Any real-life instance of a Stream needs to be associated with some underlying transport or
+storage. To make this distinction the java.io package provides several types of Streams:
+
+.Basic stream classes
+[options="header"]
+|====
+|Storage/Transport|Input|Output
+|Files|FileInputStream|FileOutputStream
+|Memory|ByteArrayInputStream|ByteArrayOutputStream
+|Pipes|PipedInputStream|PipedOutputStream
+|====
+
+So let's jump right in and look at some sample code for streams:
+
+[source,groovy]
+----
+include::groovy/streams1.groovy[]
+----
+
+.JavaDoc and Groovy Documentation
+[TIP]
+====
+Because Java and Groovy allow for the inclusion of specifically formatted comments in their
+source code, which the JavaDoc and GroovyDoc tools can extract and convert into HTML pages,
+those documentation pages are the core reference documentation for the class libraries.
+
+Unfortunately the
+link:http://docs.oracle.com/javase/6/docs/api/java/io/package-summary.html[Core JDK]
+and the
+link:http://groovy.codehaus.org/groovy-jdk[Groovy JDK]
+documentation list their capabilities separately. One purpose of this tutorial is join up
+the two sides. Being a tutorial, you will not get to see all features here. So for delving
+deeper the doc pages will be invaluable going forward.
+====
+
+== Readers, Writers, and Character Sets
+
+Most I/O these days uses text formats: XML, JSON, or old CSV. Java has supported Unicode
+from its inception. Inside the JVM each character is represented by two bytes. How all or
+some Unicode characters are represented in stream I/O depends on the encoding for the
+character set utilized. US-ASCII allows characters codes 0 .. 127 in single bytes. The
+use of 128 .. 255 in 8-bit character sets varies and has been standardized in various
+code pages, with
+link:http://en.wikipedia.org/wiki/ISO/IEC_8859[ISO 8859]
+representing the international norm. ISO-8859-1 is also known as Latin-1. It does not
+contain the €-sign, which is available in ISO-8859-15, albeit with a code different from
+the one used by Microsoft (Windows-1252). To overcome the difficulties with the various
+codepages but avoid double bytes across the board the UTF-8 encoding was created. It
+represents the US-ASCII characters in single bytes, 1920 selected unicode characters
+(including Kyrillic, Arabic, Greek, and Hebrew) in two bytes and the rest of 0 .. 65535
+in three bytes. This has made the conversion of a character sequence into a byte sequence
+and vice versa quite a bit harder.
+
+A *Reader* is an inbound stream of characters and a *Writer* is an outbound stream of
+characters. If they are connected to byte-oriented streams, they will need to carry out
+the conversion between characters and bytes as indicated by the character set encoding.
+
+There are in-memory incarnations, that always work with 16-bit characters:
+*StringWriter*, *StringReader*, *CharArrayWriter*, and *CharArrayReader*.
+
+The java.io package also introduced the *FileWriter* and *FileReader* classes. Using them
+is discouraged, because they always rely on the system character set, making their results
+hard to predict.
+
+Any byte I/O can be turned into character I/O by wrapping an InputStream with an
+*InputStreamReader* and an OutputStream with an *OutputStreamWriter*.
+
+[source,groovy]
+----
+def isr = new InputStreamReader(new FileInputStream("groovytut.txt"), "UTF-8")
+def osw = new OutputStreamWriter(new FileOutputStream("new.txt"), "ISO-8859-1")
+----
+
+If a stream or writer is wrapped like this, only the outermost incarnation needs to
+be closed explicitly. It will then close all wrapped instances. A Reader provides the
+same no-frills .read() methods as an InputStream, just for reading a single character
+or into a character array provided as an input buffer. A Writer provides several
+signatures of the .write() method for individual characters, character arrays and strings.
+
+In text processing formatting data for output and reading input line by line are two
+common chores. To get that accomplished, we need to wrap again:
+
+[source,groovy]
+def br = new BufferedReader(isr)
+def pw = new PrintWriter(osw)
+
+The *BufferedReader* has one notable additional method: *.readLine()*. The internal
+buffering is needed to locate the next line feed. Doing that character by character
+would drag down performance. The method returns *null* at the end of the stream.
+
+The *PrintWriter* provides for *.print()*, *.println()* and *.printf()* methods. It also
+provides some buffering, flushing the buffer after each line feed, unless instructed
+otherwise. The Groovy JDK provides this set of methods for any kind of *Writer*.
+
+[WARNING]
+====
+*.println()* uses the system dependent line ending string. This can be overridden by
+setting the _line.separator_ system property. Any single "\n" contained in the strings
+being printed *is not converted*.
+
+There is also a *PrintStream* class, which behaves much like *PrintWriter*, except
+not allowing to wrap another Writer. Historically it is the class of System.out and System.err.
+For clear distinction between encoded and byte output *PrintStream* should be avoided.
+====
+
+Now to get here we had to layer three instantiations with *new*. At least
+the PrintWriter lets us do that directly, unless we want to append instead of overwrite.
+For the BufferedReader there is help from the Groovy JDK, where all readers are typically
+buffered when supplied by the *.withReader()* or *.newReader()* methods.
+
+[source,groovy]
+----
+include::groovy/streams2.groovy[]
+----
+
+== Data and Object Streams
+
+[source,groovy]
+----
+include::groovy/streams3.groovy[]
+----
+
+
