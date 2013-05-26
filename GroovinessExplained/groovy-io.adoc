@@ -185,9 +185,74 @@ include::groovy/streams2.groovy[]
 
 == Data and Object Streams
 
+Now that we've covered text/character based readers and writers we can return to streams
+as a means of storing data. But doing that byte for byte might be a bit tedious.
+
+The process of converting an the internal representation of
+data (inside the JVM) to a stream of bytes is called serialization. As a means of data
+exchange, text based serialization schemes have become very popular, particularly
+representing the data in XML or JSON formats. We'll get to XML and JSON serialization and
+deserialization in subsequent chapters with ample Grooviness to support.
+
+The disadvantage of XML and JSON, to a lesser extent, is their bulkiness. The number of
+bytes transferred can be much smaller when binary representations are utilized. This is the
+realm of data and object streams in Java and Groovy.
+
+A *DataOutputStream* or *DataInputStream* can once again be instantiated by wrapping some other
+stream. They allow writing and reading all primitive Java data types plus UTF converted strings.
+There is a specific method for each. For Groovy this has the advantage that it can carry out
+any default conversions into the data type being written. The methods are *.write{_Type_}* and
+*.read{_Type_}* respectively, with *_Type_* one of
+*Boolean, Byte, Char, Short, Int, Long, Float, Double, and UTF*.
+
+The .writeUTF(String) and .readUTF() methods store the length of the String (with a limit of
+32 kB) and its content in a UTF-8 representation. Multi-byte data types are written in a
+platform independent byte order. As the sample code shows, the higher order bytes go first.
+
 [source,groovy]
 ----
 include::groovy/streams3.groovy[]
 ----
 
+Now Groovy programmers with their dynamic use of maps and lists would still be pretty hard pressed
+to export even moderately complex data structures as a sequence of primitive values. Here the
+JDK comes to the rescue with the *ObjectOutputStream* and *ObjectInputStream*. They take
+serialization not just to the next level, but a couple levels higher in a big leap.
 
+These streams can write and read entire objects. For complex data structures where any object
+can reference several other objects the interconnections are followed and all dependencies are
+written to the stream. All a class needs to do to be eligible for such serialization is to
+declare that it implements the java.io.*Serializable* interface. Curiously, this interface doesn't
+have any specific methods that need to be implemented.
+
+So here is a serializable class in a separate source file that the Groovy compiler can
+locate based on package and class naming conventions:
+
+[source,groovy]
+.sample/Container.groovy
+----
+include::groovy/sample/Container.groovy[]
+----
+
+The *public static final long _serialVersionUID_* is not part of the interface. But when using
+Groovy for compiling the class it is absolutely vital. It acts as a version number. Any change
+to this property indicates that the class definition may have changed in an incompatible way.
+Data written with a different serialVersionUID cannot be read back in. Instead a
+java.io.InvalidClassException will be thrown. For more background refer to
+link:http://www.mkyong.com/java-best-practices/understand-the-serialversionuid[mkyong].
+
+So no sweat pouring here, trying to set the class up for data I/O. In contrast allowing it to check
+equality based on member content does require an explicit implementation of .equals(). The choice of
+42000L is completely arbitrary. 1L is as good a choice, as there is no need to have unique values
+across different classes.
+
+Another important prerequisite for serialization is that each member property needs to be serializable
+as well. Luckily, the implementations for lists and maps that Groovy utilizes do fulfill this
+prerequisite, as do all primitives, strings and arrays.
+
+Now some sample code based on our class definition
+
+[source,groovy]
+----
+include::groovy/streams4.groovy[]
+----
